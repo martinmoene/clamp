@@ -60,7 +60,7 @@ Other names for `clamp()` applied to a range of values could be `clamp_range()` 
 Note and references
 -------------------
 
-[1] The [Boost Algoritm](http://www.boost.org/libs/algorithm/doc/html/algorithm/Misc.html#the_boost_algorithm_library.Misc.clamp)  library contains a version of `clamp` as shown here plus a version that also takes a comparison predicate.
+[1] `clamp()` in the [Boost Algoritm](http://www.boost.org/libs/algorithm/doc/html/algorithm/Misc.html#the_boost_algorithm_library.Misc.clamp) library.
 
 [2] Microsoft. [C++ Accelerated Massive Parallelism](http://msdn.microsoft.com/en-us/library/hh265137.aspx) library.
 

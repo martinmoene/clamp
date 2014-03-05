@@ -75,7 +75,7 @@ const test specification[] =
 
     "clamp(v,lo,hi) below lower boundary clamps to lower boundary", []
     {
-        EXPECT( 5 == clamp( 5, 5, 9 ) );
+        EXPECT( 5 == clamp( 4, 5, 9 ) );
     },
 
     "clamp(v,lo,hi) at lower boundary returns value", []
@@ -95,26 +95,33 @@ const test specification[] =
 
     "clamp(v,lo,hi) above upper boundary clamps to upper boundary", []
     {
-        EXPECT( 9 == clamp( 9, 5, 9 ) );
+        EXPECT( 9 == clamp( 10, 5, 9 ) );
     },
 
-    "clamp(v,lo,hi) below lower boundary clamps to lower boundary (negative)", []
+    "clamp(v,lo,hi) below lower boundary fails to clamp to lower boundary (negative)", []
     {
         test fail[] = {{ "F", [] { EXPECT( 3 == clamp( 3, 5, 9 ) ); } }};
 
         EXPECT( 1 == run( fail, dev_null ) );
     },
 
-    "clamp(v,lo,hi) with non-boundary returns value (negative)", []
+    "clamp(v,lo,hi) with non-boundary value returns lower boundary (negative)", []
     {
         test fail[] = {{ "F", [] { EXPECT( 5 == clamp( 7, 5, 9 ) ); } }};
 
         EXPECT( 1 == run( fail, dev_null ) );
     },
 
-    "clamp(v,lo,hi) above upper boundary clamps to upper boundary (negative)", []
+    "clamp(v,lo,hi) with non-boundary value returns upper boundary (negative)", []
     {
-        test fail[] = {{ "F", [] { EXPECT( 13 == clamp( 5, 5, 9 ) ); } }};
+        test fail[] = {{ "F", [] { EXPECT( 9 == clamp( 7, 5, 9 ) ); } }};
+
+        EXPECT( 1 == run( fail, dev_null ) );
+    },
+
+    "clamp(v,lo,hi) above upper boundary fails to clamp to upper boundary (negative)", []
+    {
+        test fail[] = {{ "F", [] { EXPECT( 13 == clamp( 13, 5, 9 ) ); } }};
 
         EXPECT( 1 == run( fail, dev_null ) );
     },

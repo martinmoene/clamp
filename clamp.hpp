@@ -56,15 +56,15 @@ constexpr const T& clamp( const T& val, const T& lo, const T& hi, Compare comp )
 
 template<class InputIterator, class OutputIterator>
 OutputIterator clamp( InputIterator first, InputIterator last, OutputIterator out,
-    typename std::iterator_traits<InputIterator>::value_type lo,
-    typename std::iterator_traits<InputIterator>::value_type hi );
+    typename std::iterator_traits<InputIterator>::value_type const& lo,
+    typename std::iterator_traits<InputIterator>::value_type const& hi );
 
 // clamp range of values per predicate:
 
 template<class InputIterator, class OutputIterator, class Compare>
 OutputIterator clamp( InputIterator first, InputIterator last, OutputIterator out,
-    typename std::iterator_traits<InputIterator>::value_type lo,
-    typename std::iterator_traits<InputIterator>::value_type hi, Compare comp );
+    typename std::iterator_traits<InputIterator>::value_type const& lo,
+    typename std::iterator_traits<InputIterator>::value_type const& hi, Compare comp );
 
 // ---------------------------------------------------------------------------
 // Possible implementation:
@@ -84,13 +84,13 @@ constexpr const T& clamp( const T& val, const T& lo, const T& hi, Compare comp )
 template<class InputIterator, class OutputIterator>
 OutputIterator clamp(
     InputIterator first, InputIterator last, OutputIterator out,
-    typename std::iterator_traits<InputIterator>::value_type lo,
-    typename std::iterator_traits<InputIterator>::value_type hi )
+    typename std::iterator_traits<InputIterator>::value_type const& lo,
+    typename std::iterator_traits<InputIterator>::value_type const& hi )
 {
-    using value_type = decltype(lo);
+    using arg_type = decltype(lo);
 
     return std::transform(
-        first, last, out, [&](value_type& val){ return clamp(val, lo, hi); } );
+        first, last, out, [&](arg_type val){ return clamp(val, lo, hi); } );
 }
 
 // clamp range of values per predicate:
@@ -98,13 +98,13 @@ OutputIterator clamp(
 template<class InputIterator, class OutputIterator, class Compare>
 OutputIterator clamp(
     InputIterator first, InputIterator last, OutputIterator out,
-    typename std::iterator_traits<InputIterator>::value_type lo,
-    typename std::iterator_traits<InputIterator>::value_type hi, Compare comp )
+    typename std::iterator_traits<InputIterator>::value_type const& lo,
+    typename std::iterator_traits<InputIterator>::value_type const& hi, Compare comp )
 {
-    using value_type = decltype(lo);
+    using arg_type = decltype(lo);
 
     return std::transform(
-        first, last, out, [&](value_type& val){ return clamp(val, lo, hi, comp); } );
+        first, last, out, [&](arg_type val){ return clamp(val, lo, hi, comp); } );
 }
 
 // end of file

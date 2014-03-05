@@ -25,7 +25,7 @@ const int clampedValue = clamp( value, minValue, maxValue );
 ```
 
 
-`clamp()` already exists in C++ libraries such as Boost[1] and Microsoft AMP[2]. There are also still plenty programming language systems that do not provide it, such as Python (although numpy has `clip()`), Java, .Net, PHP, Ruby [3]. 
+`clamp()` already exists in C++ libraries such as Boost[1] and Microsoft AMP[2]. There are also still plenty programming language systems that do not provide it, such as C#, Java, PHP, Python (although numpy has `clip()`), Ruby [3]. 
 
 Usage
 -----

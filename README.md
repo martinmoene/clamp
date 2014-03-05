@@ -1,7 +1,7 @@
 Clamp algorithm
 ===============
 
-An simple algorithm to limit a value or a range of values to fall between two extremes. The intention is to propose `clamp` for the C++ `<algorithm>` library.
+A simple algorithm to limit a value or a range of values to fall between two extremes. The intention is to propose `clamp` for the C++ `<algorithm>` library.
 
 Code to limit a value between two extremes can come by various guises.
 
@@ -25,7 +25,7 @@ const int clampedValue = clamp( value, minValue, maxValue );
 ```
 
 
-`clamp()` already exists in C++ libraries such as Boost[1] and Microsoft AMP[2]. There are also still plenty programming language systems that do not provide it, such as Python (although numpy has `clip()`), Java, .Net, Ruby [3]. 
+`clamp()` already exists in C++ libraries such as Boost[1] and Microsoft AMP[2]. There are also still plenty programming language systems that do not provide it, such as Python (although numpy has `clip()`), Java, .Net, PHP, Ruby [3]. 
 
 Usage
 -----

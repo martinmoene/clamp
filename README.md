@@ -25,7 +25,7 @@ const int clampedValue = clamp( value, minValue, maxValue );
 ```
 
 
-`clamp()` already exists in C++ libraries such as Boost[1] and Microsoft AMP[2]. This proposal is inspired on the Boost version by Marshall Clow. There are also still plenty programming language systems that do not provide it, such as C#, Java, PHP, Python (although numpy has `clip()`), Ruby [3]. 
+`clamp()` already exists in C++ libraries such as Boost[1] and Microsoft AMP[2]. This proposal is inspired on the Boost version by Marshall Clow. There are also still plenty programming language systems that do not provide it, such as C#, Java, PHP, Python (although numpy has `clip()`), Ruby [3].
 
 Usage
 -----
@@ -66,4 +66,6 @@ Note and references
 
 [3] Try: http://stackoverflow.com/search?q=clamp
 
-[4] Implementation note. Why does the implementation of `std::max()` in the GNUC `<algorithm>` library use `if()` instead of the ternary operator `?:` ? Jonathan Wakely answers: That code dates back to the SGI STL. It was changed, but then reverted, you can read the saga at http://gcc.gnu.org/ml/libstdc++/2012-09/msg00128.html 
+[4] Implementation note. Why does the implementation of `std::max()` in the GNUC `<algorithm>` library use `if()` instead of the ternary operator `?:` ? Jonathan Wakely answers: That code dates back to the SGI STL. It was changed, but then reverted, you can read the saga at http://gcc.gnu.org/ml/libstdc++/2012-09/msg00128.html
+
+[![Build Status](https://travis-ci.org/martinmoene/clamp.png?branch=master)](https://travis-ci.org/martinmoene/clamp)

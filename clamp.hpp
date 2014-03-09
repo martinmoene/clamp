@@ -120,7 +120,7 @@ OutputIterator clamp_range(
     using arg_type = decltype(lo);
 
     return std::transform(
-        first, last, out, [&](arg_type val){ return clamp(val, lo, hi, comp); } );
+        first, last, out, [&](arg_type val) -> arg_type { return clamp(val, lo, hi, comp); } );
 }
 
 #endif // CLAMP_H_INCLUDED

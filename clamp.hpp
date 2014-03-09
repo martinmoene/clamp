@@ -14,16 +14,32 @@
 //
 // emulate C++14 std::less<> if necessary (constexpr):
 //
+// see 20.9.5 Comparisons [comparisons] of
+// http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3797.pdf
+//
 #if __cplusplus == 201103L
 namespace std14 {
 
-template<class T>
+template<class T = void>
 struct less
 {
-    constexpr bool operator()( const T& lhs, const T& rhs ) const
+    constexpr bool operator()( const T& x, const T& y ) const
     {
-        return lhs < rhs;
+        return x < y;
     }
+};
+
+template <>
+struct less<void>
+{
+    template <class T, class U>
+    auto operator()(T&& t, U&& u) const
+    -> decltype( std::forward<T>(t) < std::forward<U>(u) )
+    {
+        return t < u;
+    }
+
+    // typedef unspecified is_transparent;
 };
 
 }
@@ -87,10 +103,7 @@ OutputIterator clamp(
     typename std::iterator_traits<InputIterator>::value_type const& lo,
     typename std::iterator_traits<InputIterator>::value_type const& hi )
 {
-    using arg_type = decltype(lo);
-
-    return std::transform(
-        first, last, out, [&](arg_type val){ return clamp(val, lo, hi); } );
+    return clamp(first, last, out, lo, hi, std14::less<>());
 }
 
 // clamp range of values per predicate:

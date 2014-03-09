@@ -153,7 +153,7 @@ const test specification[] =
         std::vector<int>       a{ 1,2,3,4,5,6,7,8,9, };
         std::vector<int> const b{ 3,3,3,4,5,6,7,7,7, };
 
-        auto out = clamp( a.begin(), a.end(), a.begin(), 3, 7 );
+        auto out = clamp_range( a.begin(), a.end(), a.begin(), 3, 7 );
 
         EXPECT( ( out == a.end() ) );
         EXPECT(     a == b         );

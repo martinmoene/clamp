@@ -66,19 +66,19 @@ constexpr const T& clamp( const T& val, const T& lo, const T& hi );
 template<class T, class Compare>
 constexpr const T& clamp( const T& val, const T& lo, const T& hi, Compare comp );
 
-// Boost also contains clamp_range(), here called clamp():
+// Boost also contains clamp_range():
 
 // clamp range of values:
 
 template<class InputIterator, class OutputIterator>
-OutputIterator clamp( InputIterator first, InputIterator last, OutputIterator out,
+OutputIterator clamp_range( InputIterator first, InputIterator last, OutputIterator out,
     typename std::iterator_traits<InputIterator>::value_type const& lo,
     typename std::iterator_traits<InputIterator>::value_type const& hi );
 
 // clamp range of values per predicate:
 
 template<class InputIterator, class OutputIterator, class Compare>
-OutputIterator clamp( InputIterator first, InputIterator last, OutputIterator out,
+OutputIterator clamp_range( InputIterator first, InputIterator last, OutputIterator out,
     typename std::iterator_traits<InputIterator>::value_type const& lo,
     typename std::iterator_traits<InputIterator>::value_type const& hi, Compare comp );
 
@@ -98,18 +98,18 @@ constexpr const T& clamp( const T& val, const T& lo, const T& hi, Compare comp )
 }
 
 template<class InputIterator, class OutputIterator>
-OutputIterator clamp(
+OutputIterator clamp_range(
     InputIterator first, InputIterator last, OutputIterator out,
     typename std::iterator_traits<InputIterator>::value_type const& lo,
     typename std::iterator_traits<InputIterator>::value_type const& hi )
 {
-    return clamp(first, last, out, lo, hi, std14::less<>());
+    return clamp_range(first, last, out, lo, hi, std14::less<>());
 }
 
 // clamp range of values per predicate:
 
 template<class InputIterator, class OutputIterator, class Compare>
-OutputIterator clamp(
+OutputIterator clamp_range(
     InputIterator first, InputIterator last, OutputIterator out,
     typename std::iterator_traits<InputIterator>::value_type const& lo,
     typename std::iterator_traits<InputIterator>::value_type const& hi, Compare comp )

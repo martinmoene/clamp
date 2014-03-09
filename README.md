@@ -44,18 +44,18 @@ Clamp a range of values implicitly using `std::less<>`:
 ```
 std::vector<int> a{ 1,2,3,4,5,6,7,8,9 };
 
-auto out = clamp( a.begin(), a.end(), a.begin(), 3, 7 );
+auto out = clamp_range( a.begin(), a.end(), a.begin(), 3, 7 );
 ```
 
 Clamp a range of values using the given predicate:
 ```
 std::vector<int> a{ 1,2,3,4,5,6,7,8,9 };
 
-auto out = clamp( a.begin(), a.end(), a.begin(), 3, 7, std::less<int>() );
+auto out = clamp_range( a.begin(), a.end(), a.begin(), 3, 7, std::less<int>() );
 ```
 Names
 -----
-Other names for `clamp()` applied to a range of values could be `clamp_range()` as in Boost, or `clamp_elements()`, or `clamp_transform()`.
+Other names for `clamp_range()` could be `clamp_elements()`, or `clamp_transform()`.
 
 Note and references
 -------------------

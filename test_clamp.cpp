@@ -12,56 +12,16 @@
 #else // __cplusplus < 201103L
 
 #include "clamp.hpp"
+
+#include "test_util.hpp"
 #include "lest.hpp"
 
 #include <algorithm>
 #include <iostream>
-#include <sstream>
-#include <vector>
-
-//
-// emulate C++14 if necessary:
-//
-#if __cplusplus == 201103L
-
-namespace std14 {
-
-template< class InputIt1, class InputIt2 >
-bool equal( InputIt1 first1, InputIt1 last1,
-            InputIt2 first2, InputIt2 last2 )
-{
-    if ( std::distance( first1, last1 ) != std::distance( first2, last2 ) )
-        return false;
-
-    for ( ; first1 != last1; ++first1, ++first2 )
-    {
-        if ( ! (*first1 == *first2) )
-        {
-            return false;
-        }
-    }
-    return true;
-}
-} // namespace std14
-
-#else // __cplusplus
-
-#include <functional>
-namespace std14 { using std::equal; }
-
-#endif // __cplusplus
 
 using test = lest::test;
 
 std::ostringstream dev_null;
-
-template< typename T > T use( T const & x ) { return x; }
-
-template< typename T >
-bool operator==( std::vector<T> const & a, std::vector<T> const & b )
-{
-    return std14::equal( a.begin(), a.end(), b.begin(), b.end() );
-}
 
 const test specification[] =
 {
@@ -126,7 +86,26 @@ const test specification[] =
         EXPECT( 1 == run( fail, dev_null ) );
     },
 
+    // test clamp() with non-copyable type (see test_util.hpp):
+
+    // test prerequisite:
+
+    "non_copyable() compares equal (positive and negative)", []
+    {
+                                   EXPECT( non_copyable(2) == non_copyable(2) );
+        test fail[] = {{ "F", [] { EXPECT( non_copyable(3) == non_copyable(4) ); } }};
+
+        EXPECT( 1 == run( fail, dev_null ) );
+    },
+
+    "clamp(v,lo,hi) can be used with a non-copyable type", []
+    {
+        EXPECT( non_copyable(5) == clamp( non_copyable(5) , non_copyable(3), non_copyable(7) ) );
+    },
+
     // clamp( val, lo, hi, pred ) is used by clamp( val, lo, hi ).
+
+    // test clamp_range():
 
     // test prerequisite:
 

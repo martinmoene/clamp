@@ -7,6 +7,9 @@
 // The idea and interface is based on the Boost.Algorithm library
 // authored by Marshall Clow.
 
+#ifndef CLAMP_H_INCLUDED
+#define CLAMP_H_INCLUDED
+
 #include <algorithm>
 #include <functional>
 #include <iterator>
@@ -119,5 +122,7 @@ OutputIterator clamp_range(
     return std::transform(
         first, last, out, [&](arg_type val){ return clamp(val, lo, hi, comp); } );
 }
+
+#endif // CLAMP_H_INCLUDED
 
 // end of file

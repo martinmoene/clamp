@@ -98,9 +98,18 @@ const test specification[] =
         EXPECT( 1 == run( fail, dev_null ) );
     },
 
-    "clamp(v,lo,hi) can be used with a non-copyable type", []
+    "clamp(v,lo,hi) can be used with a temporary non-copyable type", []
     {
         EXPECT( non_copyable(5) == clamp( non_copyable(5) , non_copyable(3), non_copyable(7) ) );
+    },
+
+    "clamp(v,lo,hi) can be used with a named non-copyable type", []
+    {
+        non_copyable val(5);
+        non_copyable  lo(3);
+        non_copyable  hi(7);
+
+        EXPECT( val == clamp( val, lo, hi ) );
     },
 
     // clamp( val, lo, hi, pred ) is used by clamp( val, lo, hi ).

@@ -33,7 +33,7 @@ Clamp a single value implicitly using `std::less<>`:
 ```
 constexpr auto v = clamp( 7, 3, 9 );
 ```
-Note std::less<>::operator() will become constexpr in C++14.
+Note: std::less<>::operator() will become constexpr in C++14.
 
 Clamp a single value using the given predicate:
 ```
@@ -51,8 +51,10 @@ Clamp a range of values using the given predicate:
 ```
 std::vector<int> a{ 1,2,3,4,5,6,7,8,9 };
 
-auto out = clamp_range( a.begin(), a.end(), a.begin(), 3, 7, std::less<int>() );
+auto out = clamp_range( a.begin(), a.end(), a.begin(), 3, 7, std::less<>() );
 ```
+Note: std::less<> defaults to void and provides a templated member operator()() C++14).
+
 Names
 -----
 Other names for `clamp_range()` could be `clamp_elements()`, or `clamp_transform()`.

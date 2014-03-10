@@ -53,7 +53,7 @@ std::vector<int> a{ 1,2,3,4,5,6,7,8,9 };
 
 auto out = clamp_range( a.begin(), a.end(), a.begin(), 3, 7, std::less<>() );
 ```
-Note: std::less<> defaults to void and provides a templated member operator()() C++14).
+Note: std::less<> defaults to void and provides a templated member operator()() in C++14.
 
 Names
 -----

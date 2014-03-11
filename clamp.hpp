@@ -14,6 +14,8 @@
 #include <functional>
 #include <iterator>
 
+#include <cassert>
+
 //
 // emulate C++14 std::less<> if necessary (constexpr):
 //
@@ -101,7 +103,8 @@ constexpr const T& clamp( const T& val, const T& lo, const T& hi )
 template<class T, class Compare>
 constexpr const T& clamp( const T& val, const T& lo, const T& hi, Compare comp )
 {
-    return comp(val, lo) ? lo : comp(hi, val) ? hi : val;
+    return assert( !comp(hi, lo) ),
+        comp(val, lo) ? lo : comp(hi, val) ? hi : val;
 }
 
 template<class InputIterator, class OutputIterator>

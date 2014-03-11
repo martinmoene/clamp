@@ -33,6 +33,18 @@ const test specification[] =
         use(c);
     },
 
+    "clamp(v,lo,hi) asserts !comp(hi, lo), pass", []
+    {
+        (void) clamp( 0, 5, 5 );
+    },
+
+#if 0
+    "clamp(v,lo,hi) asserts !comp(hi, lo), fail (activate to try)", []
+    {
+        (void) clamp( 0, 9, 5 );
+    },
+#endif
+
     "clamp(v,lo,hi) below lower boundary clamps to lower boundary", []
     {
         EXPECT( 5 == clamp( 4, 5, 9 ) );

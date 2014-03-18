@@ -42,7 +42,7 @@ template <>
 struct less<void>
 {
     template <class T, class U>
-    auto operator()(T&& t, U&& u) const
+    constexpr auto operator()(T&& t, U&& u) const
     -> decltype( std::forward<T>(t) < std::forward<U>(u) )
     {
         return t < u;
@@ -65,55 +65,28 @@ namespace std14 {
 // ---------------------------------------------------------------------------
 // Interface
 
-// clamp value:
+// clamp value per predicate, default std::less<>:
 
-template<class T>
-constexpr const T& clamp( const T& val, const T& lo, const T& hi );
-
-// clamp value per predicate:
-
-template<class T, class Compare>
-constexpr const T& clamp( const T& val, const T& lo, const T& hi, Compare comp );
+template<class T, class Compare = std14::less<>>
+constexpr const T& clamp( const T& val, const T& lo, const T& hi, Compare comp = Compare() );
 
 // Boost also contains clamp_range():
 
-// clamp range of values:
+// clamp range of values per predicate, default std::less<>:
 
-template<class InputIterator, class OutputIterator>
+template<class InputIterator, class OutputIterator, class Compare = std14::less<>>
 OutputIterator clamp_range( InputIterator first, InputIterator last, OutputIterator out,
     typename std::iterator_traits<InputIterator>::value_type const& lo,
-    typename std::iterator_traits<InputIterator>::value_type const& hi );
-
-// clamp range of values per predicate:
-
-template<class InputIterator, class OutputIterator, class Compare>
-OutputIterator clamp_range( InputIterator first, InputIterator last, OutputIterator out,
-    typename std::iterator_traits<InputIterator>::value_type const& lo,
-    typename std::iterator_traits<InputIterator>::value_type const& hi, Compare comp );
+    typename std::iterator_traits<InputIterator>::value_type const& hi, Compare comp = Compare() );
 
 // ---------------------------------------------------------------------------
 // Possible implementation:
-
-template<class T>
-constexpr const T& clamp( const T& val, const T& lo, const T& hi )
-{
-    return clamp( val, lo, hi, std14::less<T>() );
-}
 
 template<class T, class Compare>
 constexpr const T& clamp( const T& val, const T& lo, const T& hi, Compare comp )
 {
     return assert( !comp(hi, lo) ),
         comp(val, lo) ? lo : comp(hi, val) ? hi : val;
-}
-
-template<class InputIterator, class OutputIterator>
-OutputIterator clamp_range(
-    InputIterator first, InputIterator last, OutputIterator out,
-    typename std::iterator_traits<InputIterator>::value_type const& lo,
-    typename std::iterator_traits<InputIterator>::value_type const& hi )
-{
-    return clamp_range(first, last, out, lo, hi, std14::less<>());
 }
 
 // clamp range of values per predicate:

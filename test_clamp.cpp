@@ -25,7 +25,8 @@ std::ostringstream dev_null;
 
 const test specification[] =
 {
-    // clamp( val, lo, hi ):
+    // clamp( val, lo, hi ), equivalent to 
+    // clamp( val, lo, hi, std::less<>() ):
 
     "clamp(v,lo,hi) is a valid constexpr expression", []
     {
@@ -124,8 +125,6 @@ const test specification[] =
         EXPECT( val == clamp( val, lo, hi ) );
     },
 
-    // clamp( val, lo, hi, pred ) is used by clamp( val, lo, hi ).
-
     // test clamp_range():
 
     // test prerequisite:
@@ -146,7 +145,8 @@ const test specification[] =
         EXPECT( !( a == b ) );
     },
 
-    // clamp( first, last, out, lo, hi ):
+    // clamp( first, last, out, lo, hi ), equivalent to 
+    // clamp( first, last, out, lo, hi, std::less<>() ):
 
     "clamp( first, last, out, lo, hi ) clamps range successfully", []
     {
@@ -158,9 +158,6 @@ const test specification[] =
         EXPECT( ( out == a.end() ) );
         EXPECT(     a == b         );
     },
-
-    // clamp( first, last, out, lo, hi ) uses
-    // clamp( first, last, out, lo, hi, pred ):
 };
 
 int main()

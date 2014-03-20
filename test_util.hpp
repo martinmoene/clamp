@@ -7,40 +7,10 @@
 #ifndef TEST_UTIL_H_INCLUDED
 #define TEST_UTIL_H_INCLUDED
 
+#include "std14.hpp"
+
 #include <sstream>
 #include <vector>
-
-//
-// emulate C++14 if necessary:
-//
-#if __cplusplus == 201103L
-
-namespace std14 {
-
-template< class InputIt1, class InputIt2 >
-bool equal( InputIt1 first1, InputIt1 last1,
-            InputIt2 first2, InputIt2 last2 )
-{
-    if ( std::distance( first1, last1 ) != std::distance( first2, last2 ) )
-        return false;
-
-    for ( ; first1 != last1; ++first1, ++first2 )
-    {
-        if ( ! (*first1 == *first2) )
-        {
-            return false;
-        }
-    }
-    return true;
-}
-} // namespace std14
-
-#else // __cplusplus
-
-#include <functional>
-namespace std14 { using std::equal; }
-
-#endif // __cplusplus
 
 template< typename T > T use( T const & x ) { return x; }
 

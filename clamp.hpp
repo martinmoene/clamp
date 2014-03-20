@@ -10,57 +10,10 @@
 #ifndef CLAMP_H_INCLUDED
 #define CLAMP_H_INCLUDED
 
-#include <algorithm>
-#include <functional>
+#include "std14.hpp"
+
 #include <iterator>
-
 #include <cassert>
-
-//
-// emulate C++14 std::less<> if necessary (constexpr):
-//
-// see 20.9.5 Comparisons [comparisons] of
-// http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3797.pdf
-//
-#if __cplusplus == 201103L
-namespace std14 {
-
-template<class T = void>
-struct less
-{
-    constexpr bool operator()( const T& x, const T& y ) const
-    {
-        return x < y;
-    }
-
-    typedef T first_argument_type;
-    typedef T second_argument_type;
-    typedef bool result_type;
-};
-
-template <>
-struct less<void>
-{
-    template <class T, class U>
-    constexpr auto operator()(T&& t, U&& u) const
-    -> decltype( std::forward<T>(t) < std::forward<U>(u) )
-    {
-        return t < u;
-    }
-
-    // typedef unspecified is_transparent;
-};
-
-}
-
-#else // __cplusplus
-
-#include <functional>
-namespace std14 {
-    using std::less;
-}
-
-#endif // __cplusplus
 
 // ---------------------------------------------------------------------------
 // Interface

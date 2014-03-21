@@ -7,7 +7,7 @@ CXXFLAGS = -Wall -Wextra -Weffc++ -std=c++11 -Wno-missing-braces
 
 all: test_clamp
 
-test_lest: test_clamp.cpp clamp.hpp
+test_clamp: test_clamp.cpp clamp.hpp
 	$(CXX) $(CXXFLAGS) -o test_clamp test_clamp.cpp
 	./test_clamp
 

@@ -62,7 +62,7 @@ Other names for `clamp_range()` could be `clamp_elements()`, or `clamp_transform
 Note and references
 -------------------
 
-[1] `clamp()` in the [Boost Algoritm](http://www.boost.org/libs/algorithm/doc/html/algorithm/Misc.html#the_boost_algorithm_library.Misc.clamp) library.
+[1] `clamp()` in the [Boost Algorithm](http://www.boost.org/libs/algorithm/doc/html/algorithm/Misc.html#the_boost_algorithm_library.Misc.clamp) library.
 
 [2] Microsoft. [C++ Accelerated Massive Parallelism](http://msdn.microsoft.com/en-us/library/hh265137.aspx) library.
 

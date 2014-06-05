@@ -25,6 +25,32 @@ std::ostringstream dev_null;
 
 const test specification[] =
 {
+    // test prerequisites:
+
+    "std14::less<> works", []
+    {
+        EXPECT(   std14::less<>()( -6, -5 ) );
+        EXPECT( ! std14::less<>()( -5, -5 ) );
+        EXPECT( ! std14::less<>()( -4, -5 ) );
+        EXPECT(   std14::less<>()( -3,  5 ) );
+        EXPECT(   std14::less<>()(  3,  5 ) );
+        EXPECT(   std14::less<>()(  4,  5 ) );
+        EXPECT( ! std14::less<>()(  5,  5 ) );
+        EXPECT( ! std14::less<>()(  6,  5 ) );
+    },
+
+    "std14::greater<> works", []
+    {
+        EXPECT( ! std14::greater<>()( -6, -5 ) );
+        EXPECT( ! std14::greater<>()( -5, -5 ) );
+        EXPECT(   std14::greater<>()( -4, -5 ) );
+        EXPECT( ! std14::greater<>()( -3,  5 ) );
+        EXPECT( ! std14::greater<>()(  3,  5 ) );
+        EXPECT( ! std14::greater<>()(  4,  5 ) );
+        EXPECT( ! std14::greater<>()(  5,  5 ) );
+        EXPECT(   std14::greater<>()(  6,  5 ) );
+    },
+
     // clamp( val, lo, hi ), equivalent to 
     // clamp( val, lo, hi, std::less<>() ):
 
@@ -135,7 +161,7 @@ const test specification[] =
     
 #ifdef CLAMP_ACCEPTS_DIFFERENT_ARGUMENT_TYPES
 
-    // std::min, std::max(), clamp() do not accept different types:
+    // std::min(), std::max(), clamp() do not accept different argument types:
 
     "std::max() does not accept different argument types", []
     {
@@ -164,7 +190,7 @@ const test specification[] =
 
     // test clamp using a predicate:
     
-    "clamp(v,lo,hi) works with a predicate", []
+    "clamp(v,lo,hi,pred) works with a predicate", []
     {
         EXPECT( 5 == clamp(  4, 9, 5, std14::greater<>() ) );
         EXPECT( 5 == clamp(  5, 9, 5, std14::greater<>() ) );
@@ -232,6 +258,17 @@ const test specification[] =
         std::vector<int> const b{  3,3,3,3,4,5,6,7,7,7, };
 
         auto out = clamp_range( a.begin(), a.end(), a.begin(), 3, 7 );
+
+        EXPECT( ( out == a.end() ) );
+        EXPECT(     a == b         );
+    },
+
+    "clamp( first, last, out, lo, hi, pred ) clamps range successfully", []
+    {
+        std::vector<int>       a{ -7,1,2,3,4,5,6,7,8,9, };
+        std::vector<int> const b{  3,3,3,3,4,5,6,7,7,7, };
+
+        auto out = clamp_range( a.begin(), a.end(), a.begin(), 7, 3, std14::greater<>() );
 
         EXPECT( ( out == a.end() ) );
         EXPECT(     a == b         );

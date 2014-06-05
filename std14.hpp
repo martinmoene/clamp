@@ -81,6 +81,32 @@ struct less<void>
     // typedef unspecified is_transparent;
 };
 
+template<class T = void>
+struct greater
+{
+    constexpr bool operator()( const T& x, const T& y ) const
+    {
+        return x > y;
+    }
+
+    typedef T first_argument_type;
+    typedef T second_argument_type;
+    typedef bool result_type;
+};
+
+template <>
+struct greater<void>
+{
+    template <class T, class U>
+    constexpr auto operator()(T&& t, U&& u) const
+    -> decltype( std::forward<T>(t) < std::forward<U>(u) )
+    {
+        return t > u;
+    }
+
+    // typedef unspecified is_transparent;
+};
+
 }
 
 #else // __cplusplus
@@ -88,6 +114,7 @@ struct less<void>
 #include <functional>
 namespace std14 {
     using std::less;
+    using std::greater;
 }
 
 #endif // __cplusplus

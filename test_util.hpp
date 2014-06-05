@@ -14,6 +14,24 @@
 
 template< typename T > T use( T const & x ) { return x; }
 
+// Function approx thanks to Richard Harris, http://www.thusspakeak.com/
+// true if two floating point values are considered equal given scale and epsilon.
+
+bool approx_se( double lhs, double rhs, double scale, double epsilon )
+{
+    return std::abs( lhs - rhs ) < epsilon * (scale + std::max( std::abs(lhs), std::abs(rhs) ) );
+}
+
+// true if two floating point values are considered equal using scale:1 and
+// epsilon:100 * epsilon|double.
+
+bool approx( double lhs, double rhs )
+{
+   return approx_se( lhs, rhs, 1.0, 100.0 * std::numeric_limits<double>::epsilon() );
+}
+
+// true if vector are equal (per C++14):
+
 template< typename T >
 bool operator==( std::vector<T> const & a, std::vector<T> const & b )
 {
@@ -30,19 +48,19 @@ struct non_copyable
     non_copyable & operator=( non_copyable const & ) = delete;
 };
 
-bool operator<( const non_copyable& lhs, const non_copyable& rhs )
+bool operator<( non_copyable const & lhs, non_copyable const & rhs )
 {
 	return lhs.i < rhs.i;
 }
 
-bool operator==( const non_copyable& lhs, const non_copyable& rhs )
+bool operator==( non_copyable const & lhs, non_copyable const & rhs )
 {
 	return lhs.i == rhs.i;
 }
 
 namespace lest {
 
-std::string to_string( const ::non_copyable & nc )
+std::string to_string( ::non_copyable const & nc )
 {
     std::ostringstream os; os << nc.i; return os.str();
 }

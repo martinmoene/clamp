@@ -48,57 +48,133 @@ const test specification[] =
 
     "clamp(v,lo,hi) below lower boundary clamps to lower boundary", []
     {
-        EXPECT( 5 == clamp( 4, 5, 9 ) );
+        EXPECT(  5 == clamp(  4,  5,  9 ) );
+        EXPECT( -5 == clamp( -9, -5, -1 ) );
+
+        EXPECT(  5 == clamp( -4,  5,  9 ) );
+        EXPECT( -5 == clamp( -9, -5,  9 ) );
     },
 
     "clamp(v,lo,hi) at lower boundary returns value", []
     {
-        EXPECT( 5 == clamp( 5, 5, 9 ) );
+        EXPECT(  5 == clamp(  5,  5, 9 ) );
+        EXPECT( -5 == clamp( -5, -5, 9 ) );
     },
 
     "clamp(v,lo,hi) with non-boundary value returns value", []
     {
-        EXPECT( 7 == clamp( 7, 5, 9 ) );
+        EXPECT(  7 == clamp(  7,  5,  9 ) );
+        EXPECT( -7 == clamp( -7, -9, -5 ) );
     },
 
     "clamp(v,lo,hi) at upper boundary returns value", []
     {
-        EXPECT( 9 == clamp( 9, 5, 9 ) );
+        EXPECT(  9 == clamp(  9,  5,  9 ) );
+        EXPECT( -5 == clamp( -5, -9, -5 ) );
     },
 
     "clamp(v,lo,hi) above upper boundary clamps to upper boundary", []
     {
-        EXPECT( 9 == clamp( 10, 5, 9 ) );
+        EXPECT(  9 == clamp( 10,  5,  9 ) );
+        EXPECT( -5 == clamp( -2, -9, -5 ) );
     },
 
-    "clamp(v,lo,hi) below lower boundary fails to clamp to lower boundary (negative)", []
+    "clamp(v,lo,hi) below lower boundary fails to clamp to lower boundary (assert failure)", []
     {
-        test fail[] = {{ "F", [] { EXPECT( 3 == clamp( 3, 5, 9 ) ); } }};
+        test fail[] = {{ "F", [] { EXPECT(  3 == clamp(  3,  5,  9 ) ); } },
+                       { "F", [] { EXPECT( -3 == clamp( -3, -9, -5 ) ); } }};
 
-        EXPECT( 1 == run( fail, dev_null ) );
+        EXPECT( 2 == run( fail, dev_null ) );
     },
 
-    "clamp(v,lo,hi) with non-boundary value returns lower boundary (negative)", []
+    "clamp(v,lo,hi) with non-boundary value returns lower boundary (assert failure)", []
     {
-        test fail[] = {{ "F", [] { EXPECT( 5 == clamp( 7, 5, 9 ) ); } }};
+        test fail[] = {{ "F", [] { EXPECT(  5 == clamp(  7,  5,  9 ) ); } },
+                       { "F", [] { EXPECT( -9 == clamp( -7, -9, -5 ) ); } }};
 
-        EXPECT( 1 == run( fail, dev_null ) );
+        EXPECT( 2 == run( fail, dev_null ) );
     },
 
-    "clamp(v,lo,hi) with non-boundary value returns upper boundary (negative)", []
+    "clamp(v,lo,hi) with non-boundary value returns upper boundary (assert failure)", []
     {
-        test fail[] = {{ "F", [] { EXPECT( 9 == clamp( 7, 5, 9 ) ); } }};
+        test fail[] = {{ "F", [] { EXPECT(  9 == clamp(  7,  5,  9 ) ); } },
+                       { "F", [] { EXPECT( -5 == clamp( -7, -9, -5 ) ); } }};
 
-        EXPECT( 1 == run( fail, dev_null ) );
+        EXPECT( 2 == run( fail, dev_null ) );
     },
 
-    "clamp(v,lo,hi) above upper boundary fails to clamp to upper boundary (negative)", []
+    "clamp(v,lo,hi) above upper boundary fails to clamp to upper boundary (assert failure)", []
     {
-        test fail[] = {{ "F", [] { EXPECT( 13 == clamp( 13, 5, 9 ) ); } }};
+        test fail[] = {{ "F", [] { EXPECT( 13 == clamp( 13,  5,  9 ) ); } },
+                       { "F", [] { EXPECT( -2 == clamp( -2, -9, -5 ) ); } }};
 
-        EXPECT( 1 == run( fail, dev_null ) );
+        EXPECT( 2 == run( fail, dev_null ) );
+    },
+    
+    "clamp(v,lo,hi) works with unsigned int", []
+    {
+        EXPECT( 5U == clamp(  4U, 5U, 9U ) );
+        EXPECT( 5U == clamp(  5U, 5U, 9U ) );
+        EXPECT( 6U == clamp(  6U, 5U, 9U ) );
+        EXPECT( 7U == clamp(  7U, 5U, 9U ) );
+        EXPECT( 8U == clamp(  8U, 5U, 9U ) );
+        EXPECT( 9U == clamp(  9U, 5U, 9U ) );
+        EXPECT( 9U == clamp( 10U, 5U, 9U ) );
+    },
+    
+    "clamp(v,lo,hi) works with double", []
+    {
+        EXPECT( approx( 5., clamp(  4., 5., 9. ) ) );
+        EXPECT( approx( 5., clamp(  5., 5., 9. ) ) );
+        EXPECT( approx( 6., clamp(  6., 5., 9. ) ) );
+        EXPECT( approx( 7., clamp(  7., 5., 9. ) ) );
+        EXPECT( approx( 8., clamp(  8., 5., 9. ) ) );
+        EXPECT( approx( 9., clamp(  9., 5., 9. ) ) );
+        EXPECT( approx( 9., clamp( 10., 5., 9. ) ) );
+    },
+    
+#ifdef CLAMP_ACCEPTS_DIFFERENT_ARGUMENT_TYPES
+
+    // std::min, std::max(), clamp() do not accept different types:
+
+    "std::max() does not accept different argument types", []
+    {
+        EXPECT( 9U == std::max(  4U, 9 ) );
+        EXPECT( 9  == std::max(  4U, 9 ) );
     },
 
+    "clamp(v,lo,hi) does not work with mixed argument types (2)", []
+    {
+        EXPECT( 5U == clamp(  4U, 5, 9 ) );
+        EXPECT( 5U == clamp(  5U, 5, 9 ) );
+        EXPECT( 6U == clamp(  6U, 5, 9 ) );
+        EXPECT( 9U == clamp(  9U, 5, 9 ) );
+        EXPECT( 9U == clamp( 10U, 5, 9 ) );
+    },
+    
+    "clamp(v,lo,hi) does not work with mixed argument types (3)", []
+    {
+        EXPECT( 5U == clamp(  4U, 5, 9. ) );
+        EXPECT( 5U == clamp(  5U, 5, 9. ) );
+        EXPECT( 6U == clamp(  6U, 5, 9. ) );
+        EXPECT( 9U == clamp(  9U, 5, 9. ) );
+        EXPECT( 9U == clamp( 10U, 5, 9. ) );
+    },
+#endif
+
+    // test clamp using a predicate:
+    
+    "clamp(v,lo,hi) works with a predicate", []
+    {
+        EXPECT( 5 == clamp(  4, 9, 5, std14::greater<>() ) );
+        EXPECT( 5 == clamp(  5, 9, 5, std14::greater<>() ) );
+        EXPECT( 6 == clamp(  6, 9, 5, std14::greater<>() ) );
+        EXPECT( 7 == clamp(  7, 9, 5, std14::greater<>() ) );
+        EXPECT( 8 == clamp(  8, 9, 5, std14::greater<>() ) );
+        EXPECT( 9 == clamp(  9, 9, 5, std14::greater<>() ) );
+        EXPECT( 9 == clamp( 19, 9, 5, std14::greater<>() ) );
+    },
+    
     // test clamp() with non-copyable type (see test_util.hpp):
 
     // test prerequisite:
@@ -141,8 +217,10 @@ const test specification[] =
     {
         std::vector<int>       a{ 1,2,3, };
         std::vector<int> const b{ 1,3,3, };
+        std::vector<int> const c{ 1,2,3,4 };
 
         EXPECT( !( a == b ) );
+        EXPECT( !( a == c ) );
     },
 
     // clamp( first, last, out, lo, hi ), equivalent to 
@@ -150,8 +228,8 @@ const test specification[] =
 
     "clamp( first, last, out, lo, hi ) clamps range successfully", []
     {
-        std::vector<int>       a{ 1,2,3,4,5,6,7,8,9, };
-        std::vector<int> const b{ 3,3,3,4,5,6,7,7,7, };
+        std::vector<int>       a{ -7,1,2,3,4,5,6,7,8,9, };
+        std::vector<int> const b{  3,3,3,3,4,5,6,7,7,7, };
 
         auto out = clamp_range( a.begin(), a.end(), a.begin(), 3, 7 );
 

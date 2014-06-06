@@ -14,7 +14,8 @@
 
 template< typename T > T use( T const & x ) { return x; }
 
-// Function approx thanks to Richard Harris, http://www.thusspakeak.com/
+// Function approx thanks to Richard Harris (http://www.thusspakeak.com/),
+// based on approximatelyEqual() by D.E. Knuth (The art of computer programming).
 // true if two floating point values are considered equal given scale and epsilon.
 
 bool approx_se( double lhs, double rhs, double scale, double epsilon )

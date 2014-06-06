@@ -188,7 +188,7 @@ const test specification[] =
     },
 #endif
 
-    // test clamp using a predicate:
+    // test clamp using a (different) predicate:
     
     "clamp(v,lo,hi,pred) works with a predicate", []
     {
@@ -198,7 +198,7 @@ const test specification[] =
         EXPECT( 7 == clamp(  7, 9, 5, std14::greater<>() ) );
         EXPECT( 8 == clamp(  8, 9, 5, std14::greater<>() ) );
         EXPECT( 9 == clamp(  9, 9, 5, std14::greater<>() ) );
-        EXPECT( 9 == clamp( 19, 9, 5, std14::greater<>() ) );
+        EXPECT( 9 == clamp( 10, 9, 5, std14::greater<>() ) );
     },
     
     // test clamp() with non-copyable type (see test_util.hpp):

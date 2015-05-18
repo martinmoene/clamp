@@ -65,12 +65,10 @@ const test specification[] =
         (void) clamp( 0, 5, 5 );
     },
 
-#if 0
-    CASE( "clamp(v,lo,hi) asserts !comp(hi, lo), fail (activate to try)" )
+    CASE( "clamp(v,lo,hi) asserts !comp(hi, lo), fail (skipped unless selected)" " [.]" )
     {
         (void) clamp( 0, 9, 5 );
     },
-#endif
 
     CASE( "clamp(v,lo,hi) below lower boundary clamps to lower boundary" )
     {

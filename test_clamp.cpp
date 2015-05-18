@@ -1,4 +1,4 @@
-// Copyright (C) 2014 Martin Moene.
+// Copyright 2014-2015 Martin Moene.
 //
 // Use, modification, and distribution is subject to the Boost Software
 // License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
@@ -27,7 +27,7 @@ const test specification[] =
 {
     // test prerequisites:
 
-    "std14::less<> works", []
+    CASE( "std14::less<> works" )
     {
         EXPECT(   std14::less<>()( -6, -5 ) );
         EXPECT( ! std14::less<>()( -5, -5 ) );
@@ -39,7 +39,7 @@ const test specification[] =
         EXPECT( ! std14::less<>()(  6,  5 ) );
     },
 
-    "std14::greater<> works", []
+    CASE( "std14::greater<> works" )
     {
         EXPECT( ! std14::greater<>()( -6, -5 ) );
         EXPECT( ! std14::greater<>()( -5, -5 ) );
@@ -54,25 +54,25 @@ const test specification[] =
     // clamp( val, lo, hi ), equivalent to 
     // clamp( val, lo, hi, std::less<>() ):
 
-    "clamp(v,lo,hi) is a valid constexpr expression", []
+    CASE( "clamp(v,lo,hi) is a valid constexpr expression" )
     {
         constexpr auto c = clamp( 7, 5, 9 );
         use(c);
     },
 
-    "clamp(v,lo,hi) asserts !comp(hi, lo), pass", []
+    CASE( "clamp(v,lo,hi) asserts !comp(hi, lo), pass" )
     {
         (void) clamp( 0, 5, 5 );
     },
 
 #if 0
-    "clamp(v,lo,hi) asserts !comp(hi, lo), fail (activate to try)", []
+    CASE( "clamp(v,lo,hi) asserts !comp(hi, lo), fail (activate to try)" )
     {
         (void) clamp( 0, 9, 5 );
     },
 #endif
 
-    "clamp(v,lo,hi) below lower boundary clamps to lower boundary", []
+    CASE( "clamp(v,lo,hi) below lower boundary clamps to lower boundary" )
     {
         EXPECT(  5 == clamp(  4,  5,  9 ) );
         EXPECT( -5 == clamp( -9, -5, -1 ) );
@@ -81,63 +81,63 @@ const test specification[] =
         EXPECT( -5 == clamp( -9, -5,  9 ) );
     },
 
-    "clamp(v,lo,hi) at lower boundary returns value", []
+    CASE( "clamp(v,lo,hi) at lower boundary returns value" )
     {
         EXPECT(  5 == clamp(  5,  5, 9 ) );
         EXPECT( -5 == clamp( -5, -5, 9 ) );
     },
 
-    "clamp(v,lo,hi) with non-boundary value returns value", []
+    CASE( "clamp(v,lo,hi) with non-boundary value returns value" )
     {
         EXPECT(  7 == clamp(  7,  5,  9 ) );
         EXPECT( -7 == clamp( -7, -9, -5 ) );
     },
 
-    "clamp(v,lo,hi) at upper boundary returns value", []
+    CASE( "clamp(v,lo,hi) at upper boundary returns value" )
     {
         EXPECT(  9 == clamp(  9,  5,  9 ) );
         EXPECT( -5 == clamp( -5, -9, -5 ) );
     },
 
-    "clamp(v,lo,hi) above upper boundary clamps to upper boundary", []
+    CASE( "clamp(v,lo,hi) above upper boundary clamps to upper boundary" )
     {
         EXPECT(  9 == clamp( 10,  5,  9 ) );
         EXPECT( -5 == clamp( -2, -9, -5 ) );
     },
 
-    "clamp(v,lo,hi) below lower boundary fails to clamp to lower boundary (assert failure)", []
+    CASE( "clamp(v,lo,hi) below lower boundary fails to clamp to lower boundary (assert failure)" )
     {
-        test fail[] = {{ "F", [] { EXPECT(  3 == clamp(  3,  5,  9 ) ); } },
-                       { "F", [] { EXPECT( -3 == clamp( -3, -9, -5 ) ); } }};
+        test fail[] = {{ CASE("F") { EXPECT(  3 == clamp(  3,  5,  9 ) ); } },
+                       { CASE("F") { EXPECT( -3 == clamp( -3, -9, -5 ) ); } }};
 
         EXPECT( 2 == run( fail, dev_null ) );
     },
 
-    "clamp(v,lo,hi) with non-boundary value returns lower boundary (assert failure)", []
+    CASE( "clamp(v,lo,hi) with non-boundary value returns lower boundary (assert failure)" )
     {
-        test fail[] = {{ "F", [] { EXPECT(  5 == clamp(  7,  5,  9 ) ); } },
-                       { "F", [] { EXPECT( -9 == clamp( -7, -9, -5 ) ); } }};
+        test fail[] = {{ CASE("F") { EXPECT(  5 == clamp(  7,  5,  9 ) ); } },
+                       { CASE("F") { EXPECT( -9 == clamp( -7, -9, -5 ) ); } }};
 
         EXPECT( 2 == run( fail, dev_null ) );
     },
 
-    "clamp(v,lo,hi) with non-boundary value returns upper boundary (assert failure)", []
+    CASE( "clamp(v,lo,hi) with non-boundary value returns upper boundary (assert failure)" )
     {
-        test fail[] = {{ "F", [] { EXPECT(  9 == clamp(  7,  5,  9 ) ); } },
-                       { "F", [] { EXPECT( -5 == clamp( -7, -9, -5 ) ); } }};
+        test fail[] = {{ CASE("F") { EXPECT(  9 == clamp(  7,  5,  9 ) ); } },
+                       { CASE("F") { EXPECT( -5 == clamp( -7, -9, -5 ) ); } }};
 
         EXPECT( 2 == run( fail, dev_null ) );
     },
 
-    "clamp(v,lo,hi) above upper boundary fails to clamp to upper boundary (assert failure)", []
+    CASE( "clamp(v,lo,hi) above upper boundary fails to clamp to upper boundary (assert failure)" )
     {
-        test fail[] = {{ "F", [] { EXPECT( 13 == clamp( 13,  5,  9 ) ); } },
-                       { "F", [] { EXPECT( -2 == clamp( -2, -9, -5 ) ); } }};
+        test fail[] = {{ CASE("F") { EXPECT( 13 == clamp( 13,  5,  9 ) ); } },
+                       { CASE("F") { EXPECT( -2 == clamp( -2, -9, -5 ) ); } }};
 
         EXPECT( 2 == run( fail, dev_null ) );
     },
     
-    "clamp(v,lo,hi) works with unsigned int", []
+    CASE( "clamp(v,lo,hi) works with unsigned int" )
     {
         EXPECT( 5U == clamp(  4U, 5U, 9U ) );
         EXPECT( 5U == clamp(  5U, 5U, 9U ) );
@@ -148,7 +148,7 @@ const test specification[] =
         EXPECT( 9U == clamp( 10U, 5U, 9U ) );
     },
     
-    "clamp(v,lo,hi) works with double", []
+    CASE( "clamp(v,lo,hi) works with double" )
     {
         EXPECT( approx( 5., clamp(  4., 5., 9. ) ) );
         EXPECT( approx( 5., clamp(  5., 5., 9. ) ) );
@@ -163,13 +163,13 @@ const test specification[] =
 
     // std::min(), std::max(), clamp() do not accept different argument types:
 
-    "std::max() does not accept different argument types", []
+    CASE( "std::max() does not accept different argument types" )
     {
         EXPECT( 9U == std::max(  4U, 9 ) );
         EXPECT( 9  == std::max(  4U, 9 ) );
     },
 
-    "clamp(v,lo,hi) does not work with mixed argument types (2)", []
+    CASE( "clamp(v,lo,hi) does not work with mixed argument types (2)" )
     {
         EXPECT( 5U == clamp(  4U, 5, 9 ) );
         EXPECT( 5U == clamp(  5U, 5, 9 ) );
@@ -178,7 +178,7 @@ const test specification[] =
         EXPECT( 9U == clamp( 10U, 5, 9 ) );
     },
     
-    "clamp(v,lo,hi) does not work with mixed argument types (3)", []
+    CASE( "clamp(v,lo,hi) does not work with mixed argument types (3)" )
     {
         EXPECT( 5U == clamp(  4U, 5, 9. ) );
         EXPECT( 5U == clamp(  5U, 5, 9. ) );
@@ -190,7 +190,7 @@ const test specification[] =
 
     // test clamp using a (different) predicate:
     
-    "clamp(v,lo,hi,pred) works with a predicate", []
+    CASE( "clamp(v,lo,hi,pred) works with a predicate" )
     {
         EXPECT( 5 == clamp(  4, 9, 5, std14::greater<>() ) );
         EXPECT( 5 == clamp(  5, 9, 5, std14::greater<>() ) );
@@ -205,20 +205,20 @@ const test specification[] =
 
     // test prerequisite:
 
-    "non_copyable() compares equal (positive and negative)", []
+    CASE( "non_copyable() compares equal (positive and negative)" )
     {
-                                   EXPECT( non_copyable(2) == non_copyable(2) );
-        test fail[] = {{ "F", [] { EXPECT( non_copyable(3) == non_copyable(4) ); } }};
+                                     EXPECT( non_copyable(2) == non_copyable(2) );
+        test fail[] = {{ CASE("F") { EXPECT( non_copyable(3) == non_copyable(4) ); } }};
 
         EXPECT( 1 == run( fail, dev_null ) );
     },
 
-    "clamp(v,lo,hi) can be used with a temporary non-copyable type", []
+    CASE( "clamp(v,lo,hi) can be used with a temporary non-copyable type" )
     {
         EXPECT( non_copyable(5) == clamp( non_copyable(5) , non_copyable(3), non_copyable(7) ) );
     },
 
-    "clamp(v,lo,hi) can be used with a named non-copyable type", []
+    CASE( "clamp(v,lo,hi) can be used with a named non-copyable type" )
     {
         non_copyable val(5);
         non_copyable  lo(3);
@@ -231,7 +231,7 @@ const test specification[] =
 
     // test prerequisite:
 
-    "operator==( vector ) compares equal", []
+    CASE( "operator==( vector ) compares equal" )
     {
         std::vector<int>       a{ 1,2,3, };
         std::vector<int> const b{ 1,2,3, };
@@ -239,7 +239,7 @@ const test specification[] =
         EXPECT( a == b );
     },
 
-    "operator==( vector ) compares not equal", []
+    CASE( "operator==( vector ) compares not equal" )
     {
         std::vector<int>       a{ 1,2,3, };
         std::vector<int> const b{ 1,3,3, };
@@ -252,7 +252,7 @@ const test specification[] =
     // clamp( first, last, out, lo, hi ), equivalent to 
     // clamp( first, last, out, lo, hi, std::less<>() ):
 
-    "clamp( first, last, out, lo, hi ) clamps range successfully", []
+    CASE( "clamp( first, last, out, lo, hi ) clamps range successfully" )
     {
         std::vector<int>       a{ -7,1,2,3,4,5,6,7,8,9, };
         std::vector<int> const b{  3,3,3,3,4,5,6,7,7,7, };
@@ -263,7 +263,7 @@ const test specification[] =
         EXPECT(     a == b         );
     },
 
-    "clamp( first, last, out, lo, hi, pred ) clamps range successfully", []
+    CASE( "clamp( first, last, out, lo, hi, pred ) clamps range successfully" )
     {
         std::vector<int>       a{ -7,1,2,3,4,5,6,7,8,9, };
         std::vector<int> const b{  3,3,3,3,4,5,6,7,7,7, };
@@ -275,9 +275,9 @@ const test specification[] =
     },
 };
 
-int main()
+int main( int argc, char * argv[] )
 {
-    return run( specification );
+    return lest::run( specification, argc, argv /*, std::cout */ );
 }
 
 #endif //__cplusplus < 201103L

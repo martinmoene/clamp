@@ -24,3 +24,4 @@ install:
 script: 
 - cd ~/build/martinmoene/clamp
 - make test_clamp
+- ./test_clamp --list-tests

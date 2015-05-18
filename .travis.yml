@@ -21,4 +21,6 @@ install:
 
 - export CXX="clang++-3.4"
 
-script: make test_clamp
+script: 
+- cd ~/build/martinmoene/clamp
+- make test_clamp

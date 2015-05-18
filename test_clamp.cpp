@@ -105,6 +105,24 @@ const test specification[] =
         EXPECT( -5 == clamp( -2, -9, -5 ) );
     },
 
+    CASE( "clamp(v,lo,hi) at lower boundary returns first argument" )
+    {{
+        int v =  5, lo = 5, hi = 9;
+        EXPECT( &v == &clamp( v, lo, hi ) );
+    }{
+        int v = -5, lo = -5, hi = 9;
+        EXPECT( &v == &clamp( v, lo, hi ) );
+    }},
+
+    CASE( "clamp(v,lo,hi) at upper boundary returns first argument" )
+    {{
+        int v =  9, lo = 5, hi = 9;
+        EXPECT( &v == &clamp( v, lo, hi ) );
+    }{
+        int v = -5, lo = -9, hi = -5;
+        EXPECT( &v == &clamp( v, lo, hi ) );
+    }},
+
     CASE( "clamp(v,lo,hi) below lower boundary fails to clamp to lower boundary (assert failure)" )
     {
         test fail[] = {{ CASE("F") { EXPECT(  3 == clamp(  3,  5,  9 ) ); } },

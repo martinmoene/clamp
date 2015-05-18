@@ -1,4 +1,4 @@
-Clamp algorithm
+Clamp algorithm&emsp;[![Build Status](https://travis-ci.org/martinmoene/clamp.png?branch=master)](https://travis-ci.org/martinmoene/clamp)
 ===============
 
 A simple algorithm to limit a value or a range of values to fall between two extremes. The intention is to propose `clamp` for the C++ `<algorithm>` library.
@@ -70,4 +70,3 @@ Note and references
 
 [4] Implementation note. Why does the implementation of `std::max()` in the GNUC `<algorithm>` library use `if()` instead of the ternary operator `?:` ? Jonathan Wakely answers: That code dates back to the SGI STL. It was changed, but then reverted, you can read the saga at http://gcc.gnu.org/ml/libstdc++/2012-09/msg00128.html
 
-[![Build Status](https://travis-ci.org/martinmoene/clamp.png?branch=master)](https://travis-ci.org/martinmoene/clamp)

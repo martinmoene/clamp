@@ -9,6 +9,7 @@
 
 #include "std14.hpp"
 
+#include <cmath>
 #include <sstream>
 #include <vector>
 

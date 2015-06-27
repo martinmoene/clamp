@@ -1,7 +1,7 @@
 Clamp algorithm&emsp;[![Build Status](https://travis-ci.org/martinmoene/clamp.png?branch=master)](https://travis-ci.org/martinmoene/clamp)
 ===============
 
-A simple algorithm to limit a value or a range of values to fall between two extremes. The intention is to propose `clamp` for the C++ `<algorithm>` library.
+A simple algorithm to limit a value or a range of values to fall between two extremes. `clamp` has been proposed for the C++ `<algorithm>` library under document number [N4536](http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4536.html).
 
 Code to limit a value between two extremes can come by various guises.
 
